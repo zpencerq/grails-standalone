@@ -74,6 +74,7 @@ There are several arguments you can pass to customize how the application runs, 
 # @certificateFile@, the path to the OpenSSL certificate file, no default
 # @certificateKeyFile@, the path to the OpenSSL certificate private key file, no default
 # @certificateKeyPassword@, the password for the OpenSSL certificate private key file, no default
+# @enableKillSwitch@, enables a listener on port+1 which will terminate tomcat upon receiving a request, defaults to true (Tomcat only)
 
 In addition, if you specify a value that is the name of a system property (e.g. 'home.dir'), the system property value will be used.
 

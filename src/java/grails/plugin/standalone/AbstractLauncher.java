@@ -43,8 +43,8 @@ public abstract class AbstractLauncher {
 
 	protected static final List<String> SUPPORTED_ARGS = Arrays.asList(
 		"certificateFile", "certificateKeyFile", "certificateKeyPassword", "compressableMimeTypes",
-		"context", "enableClientAuth", "enableCompression", "enableProxySupport", "host", "httpsPort",
-		"javax.net.ssl.keyStore", "javax.net.ssl.keyStorePassword", "javax.net.ssl.trustStore",
+		"context", "enableClientAuth", "enableCompression", "enableKillSwitch", "enableProxySupport", "host",
+        	"httpsPort", "javax.net.ssl.keyStore", "javax.net.ssl.keyStorePassword", "javax.net.ssl.trustStore",
 		"javax.net.ssl.trustStorePassword", "keystorePassword", "keystorePath", "nio", "port", "serverName",
 		"sessionTimeout", "tomcat.nio", "trustStorePassword", "truststorePath", "workDir");
 
