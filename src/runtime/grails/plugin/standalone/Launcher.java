@@ -67,6 +67,12 @@ public class Launcher extends AbstractLauncher {
 	 *           <li>enableClientAuth defaults to false</li>
 	 *           <li>sessionTimeout, defaults to 30 (minutes)</li>
 	 *           <li>nio or tomcat.nio, defaults to false</li>
+	 *           <li>serverName, a specific value to use as HTTP Server Header, no default</li>
+	 *           <li>enableProxySupport, enables support for X-Forwarded headers, defaults to false</li>
+	 *           <li>enableKillSwitch, enables a listener on port+1 which will terminate tomcat upon receiving a request, defaults to true</li>
+	 *           <li>certificateFile, the path to the OpenSSL certificate file, no default</li>
+	 *           <li>certificateKeyFile, the path to the OpenSSL certificate private key file, no default</li>
+	 *           <li>certificateKeyPassword, the password for the OpenSSL certificate private key file, no default</li>
 	 *           </ul>
 	 *           In addition, if you specify a value that is the name of a system
 	 *           property (e.g. 'home.dir'), the system property value will be used.
@@ -132,8 +138,9 @@ public class Launcher extends AbstractLauncher {
 				httpsPort, keystoreFile, keystorePassword, usingUserKeystore,
 				enableClientAuth, truststorePath, trustStorePassword,
 				sessionTimeout, enableCompression, compressableMimeTypes, useNio);
-
-		startKillSwitchThread(port);
+		
+		boolean enableKillSwitch = getBooleanArg("enableKillSwitch", false);
+		if (enableKillSwitch) { startKillSwitchThread(port); }
 		addShutdownHook();
 		addFailureLifecycleListener(contextPath);
 

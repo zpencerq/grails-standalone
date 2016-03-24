@@ -76,6 +76,7 @@ There are several arguments you can pass to customize how the application runs, 
 # @compressableMimeTypes@, a comma separated list of MIME types for which HTTP compression may be used; defaults to the Tomcat defaults, @"text/html,text/xml,text/plain"@
 # @sessionTimeout@, the session timeout in minutes; defaults to 30
 # @nio@ or @tomcat.nio@, whether to use NIO; defaults to true
+# @enableKillSwitch@, enables a listener on port+1 which will terminate tomcat upon receiving a request, defaults to true (Tomcat only)
 
 In addition, if you specify a value that is the name of a system property (e.g. 'home.dir'), the system property value will be used.
 
