@@ -66,7 +66,7 @@ public class Launcher extends AbstractLauncher {
 	 *           <li>compressableMimeTypes defaults to ''</li>
 	 *           <li>enableClientAuth defaults to false</li>
 	 *           <li>sessionTimeout, defaults to 30 (minutes)</li>
-	 *           <li>nio or tomcat.nio, defaults to true</li>
+	 *           <li>nio or tomcat.nio, defaults to false</li>
 	 *           </ul>
 	 *           In addition, if you specify a value that is the name of a system
 	 *           property (e.g. 'home.dir'), the system property value will be used.
@@ -126,7 +126,7 @@ public class Launcher extends AbstractLauncher {
 		boolean enableClientAuth = getBooleanArg("enableClientAuth", false);
 		int sessionTimeout = getIntArg("sessionTimeout", 30);
 		String nio = getArg("nio", getArg("tomcat.nio"));
-		boolean useNio = nio == null || nio.equalsIgnoreCase("true");
+		boolean useNio = nio != null && nio.equalsIgnoreCase("true");
 
 		configureTomcat(tomcatDir, contextPath, exploded, host, port,
 				httpsPort, keystoreFile, keystorePassword, usingUserKeystore,
