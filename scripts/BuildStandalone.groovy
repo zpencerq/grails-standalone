@@ -103,7 +103,7 @@ buildJar = { File workDir, File jar, boolean jetty, File warfile = null ->
 	ant.path(id: 'standalone.cp') { dependencyJars.each { pathelement(path: it) } }
 
 	// compile Launcher.java so it's directly in the JAR
-	ant.javac(destdir: workDir, debug: true, source: '1.5', target: '1.5', listfiles: true,
+	ant.javac(destdir: workDir, debug: true, source: '1.7', target: '1.7', listfiles: true,
 	          classpathref: 'standalone.cp', includeAntRuntime: false) {
 		src(path: new File(standalonePluginDir, 'src/java').path)
 		src(path: new File(standalonePluginDir, 'src/runtime').path)
@@ -211,7 +211,7 @@ calculateJettyDependencies = { standaloneConfig ->
 
 calculateTomcatDependencies = { standaloneConfig ->
 
-	String tomcatVersion = standaloneConfig.tomcatVersion ?: '7.0.47'
+	String tomcatVersion = standaloneConfig.tomcatVersion ?: '7.0.81'
 
 	def deps = []
 
