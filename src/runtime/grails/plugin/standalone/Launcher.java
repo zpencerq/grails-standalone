@@ -224,6 +224,7 @@ public class Launcher extends AbstractLauncher {
 						":" + securePort + contextPath;
 			}
 			System.out.println(message);
+			tomcat.getServer().await();
 		}
 		catch (LifecycleException e) {
 			e.printStackTrace();
