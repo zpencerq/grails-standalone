@@ -97,24 +97,36 @@ buildWar = { File workDir ->
 }
 
 buildJar = { File workDir, File jar, boolean jetty, File warfile = null ->
+	List<String> dependencyJars = resolveJars(jetty, buildSettings.config.grails.plugin.standalone);
 
-	List<String> dependencyJars = resolveJars(jetty, buildSettings.config.grails.plugin.standalone)
+        def classPath = dependencyJars.join(':');
 
-	ant.path(id: 'standalone.cp') { dependencyJars.each { pathelement(path: it) } }
+        def sources = [
+          "${standalonePluginDir}/src/java/grails/plugin/standalone/AbstractLauncher.java",
+        ];
+        if (jetty) {
+          sources << "${standalonePluginDir}/src/runtime/grails/plugin/standalone/JettyLauncher.java";
+        }
+        else {
+          sources << "${standalonePluginDir}/src/runtime/grails/plugin/standalone/Launcher.java";
+        }
 
-	// compile Launcher.java so it's directly in the JAR
-	ant.javac(destdir: workDir, debug: true, source: '1.7', target: '1.7', listfiles: true,
-	          classpathref: 'standalone.cp', includeAntRuntime: false) {
-		src(path: new File(standalonePluginDir, 'src/java').path)
-		src(path: new File(standalonePluginDir, 'src/runtime').path)
-		include(name: 'grails/plugin/standalone/AbstractLauncher.java')
-		if (jetty) {
-			include(name: 'grails/plugin/standalone/JettyLauncher.java')
-		}
-		else {
-			include(name: 'grails/plugin/standalone/Launcher.java')
-		}
-	}
+        def cmd = ([
+          "javac -g",
+          "-d ${workDir}",
+          "-classpath ${classPath}",
+        ] + sources).join(' ');
+
+        def result = cmd.execute()
+        def serr = new StringBuilder();
+        result.consumeProcessErrorStream(serr);
+        result.text.eachLine { println it };
+
+        if(result.exitValue() != 0) {
+          println "Exit code: ${result.exitValue()}";
+          println serr.toString();
+          System.exit(1);
+        }
 
 	for (jarPath in dependencyJars) {
 		ant.unjar src: jarPath, dest: workDir
